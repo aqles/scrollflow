@@ -1,0 +1,69 @@
+/* ScrollFlow v2.0.0 — (c) 2021-2026 aqles, MIT License */
+
+:root {
+  --sf-duration: 800ms;
+  --sf-easing: cubic-bezier(0.25, 1, 0.5, 1);
+  --sf-progress-color: #3b82f6;
+  --sf-progress-height: 4px;
+}
+
+/* Smooth scrolling, only when ScrollFlow enables it and motion is welcome. */
+html.sf-smooth {
+  scroll-behavior: smooth;
+}
+
+/* Reading progress bar: flat colour, driven by transform. */
+.sf-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--sf-progress-height);
+  background: transparent;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.sf-progress-indicator {
+  height: 100%;
+  background: var(--sf-progress-color);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/*
+ * Reveal start states are gated on html.sf-js, a class the library adds
+ * when it runs. Without JavaScript nothing is hidden and every element
+ * stays readable.
+ */
+html.sf-js [data-sf-reveal] {
+  opacity: 0;
+  transition:
+    opacity var(--sf-duration) var(--sf-easing),
+    transform var(--sf-duration) var(--sf-easing);
+}
+
+html.sf-js [data-sf-reveal].sf-visible {
+  opacity: 1;
+  transform: none;
+}
+
+html.sf-js [data-sf-reveal="fade-up"] { transform: translateY(30px); }
+html.sf-js [data-sf-reveal="fade-down"] { transform: translateY(-30px); }
+html.sf-js [data-sf-reveal="fade-in"] { transform: none; }
+html.sf-js [data-sf-reveal="slide-left"] { transform: translateX(-30px); }
+html.sf-js [data-sf-reveal="slide-right"] { transform: translateX(30px); }
+html.sf-js [data-sf-reveal="zoom-in"] { transform: scale(0.95); }
+html.sf-js [data-sf-reveal="zoom-out"] { transform: scale(1.05); }
+
+@media (prefers-reduced-motion: reduce) {
+  html.sf-smooth {
+    scroll-behavior: auto;
+  }
+
+  html.sf-js [data-sf-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none;
+  }
+}
