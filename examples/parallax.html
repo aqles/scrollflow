@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScrollFlow example — parallax</title>
+  <link rel="stylesheet" href="../src/scrollflow.css">
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; line-height: 1.55; color: #1c1c1c; background: #f4f4f2; }
+    main { max-width: 640px; margin: 0 auto; padding: 2rem 1.25rem; }
+    /* The stage hides the overflow: parallax elements need room around them. */
+    .stage { position: relative; overflow: hidden; background: #2c3620; color: #e3e2da; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; gap: 5rem; padding: 4rem 1.25rem; }
+    .disc { position: absolute; width: 260px; height: 260px; border-radius: 50%; background: #b7c8be; right: 8%; top: 30%; }
+    .line { position: relative; font-size: 1.9rem; font-weight: 700; max-width: 14ch; margin: 0; }
+    .tall { height: 70vh; display: flex; align-items: center; }
+    code { background: #ececea; padding: 0.1em 0.35em; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Parallax</h1>
+    <p>The offset is the distance between an element's centre and the viewport's centre, times <code>−speed</code>, with the distance capped at half the viewport. At the centre the offset is zero, so elements never jump or wander off. Scroll into the green stage and watch the three elements separate.</p>
+    <p>Tip: always give parallax elements a parent with <code>overflow: hidden</code> and some spare room, like the stage below.</p>
+  </main>
+
+  <div class="stage">
+    <div class="disc" data-sf-parallax="0.35" aria-hidden="true"></div>
+    <p class="line" data-sf-parallax="0.08">Speed 0.08 — barely drifts.</p>
+    <p class="line" data-sf-parallax="0.2">Speed 0.2 — clearly drifts.</p>
+  </div>
+
+  <main>
+    <p class="tall">That is the whole trick. The same maths works for a background layer: make the layer taller than its section, give the section <code>overflow: hidden</code>, and put <code>data-sf-parallax</code> on the layer.</p>
+  </main>
+
+  <script src="../src/scrollflow.js" data-auto-init></script>
+</body>
+</html>
