@@ -1,0 +1,46 @@
+{
+    "author": "aqles",
+    "bugs": {
+        "url": "https://github.com/aqles/scrollflow/issues"
+    },
+    "description": "A tiny, zero-dependency library for scroll interactions: reveal on scroll, parallax, and a reading progress bar.",
+    "devDependencies": {
+        "terser": "^5.36.0"
+    },
+    "engines": {
+        "node": ">=18"
+    },
+    "files": [
+        "dist",
+        "src",
+        "LICENSE",
+        "README.md"
+    ],
+    "homepage": "https://aqles.github.io/scrollflow/",
+    "jsdelivr": "dist/scrollflow.js",
+    "keywords": [
+        "scroll",
+        "reveal",
+        "parallax",
+        "animation",
+        "intersection-observer",
+        "progress-bar",
+        "vanilla-js",
+        "zero-dependency"
+    ],
+    "license": "MIT",
+    "main": "dist/scrollflow.js",
+    "module": "dist/scrollflow.esm.js",
+    "name": "@aqles/scrollflow",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/aqles/scrollflow.git"
+    },
+    "scripts": {
+        "build": "node scripts/build.mjs",
+        "test": "node test/smoke.mjs"
+    },
+    "style": "dist/scrollflow.css",
+    "unpkg": "dist/scrollflow.js",
+    "version": "2.0.0"
+}
