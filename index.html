@@ -1,123 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>ScrollFlow.js - Modern Scroll Interactions</title>
-    <link rel="stylesheet" href="css/demo.css?v=1.1">
-    <link rel="stylesheet" href="css/scrollflow.css?v=1.1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScrollFlow — tiny scroll animations, zero dependencies</title>
+  <meta name="description" content="ScrollFlow is a tiny, zero-dependency JavaScript library for reveal-on-scroll animations, parallax, and a reading progress bar. About 2.4 KB gzipped, CSS and JS included.">
+  <meta property="og:title" content="ScrollFlow">
+  <meta property="og:description" content="Reveal on scroll, parallax, and a reading progress bar. Zero dependencies, about 2.4 KB gzipped.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aqles.github.io/scrollflow/">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/70847820?v=4">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%232c3620'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/scrollflow.css">
+  <link rel="stylesheet" href="css/demo.css">
 </head>
-
 <body>
 
-    <!-- ScrollFlow Auto Init -->
-    <script src="src/scrollflow.js?v=1.1" data-auto-init></script>
+  <header class="site-head">
+    <a class="wordmark" href="#top"><span class="dot" aria-hidden="true"></span>ScrollFlow</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#playground">Playground</a>
+      <a href="#features">Features</a>
+      <a href="#install">Install</a>
+      <a href="#api">API</a>
+      <a class="btn btn-small" href="https://github.com/aqles/scrollflow" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </nav>
+  </header>
 
-    <header class="glass">
-        <div class="logo">ScrollFlow<span style="color:white">.js</span></div>
-        <nav>
-            <a href="#features">Features</a>
-            <a href="#how-it-works">Docs</a>
-            <a href="dist/scrollflow.zip" download class="btn btn-primary"
-                style="margin-left: 2rem; padding: 0.5rem 1.5rem;">Download</a>
-        </nav>
-    </header>
+  <main id="top">
 
-    <div class="hero">
-        <div class="hero-bg" data-sf-parallax="0.3"
-            style="background-image: url('assets/hero-bg.png'); background-size: cover; background-position: center;">
+    <section class="hero">
+      <div class="hero-circle" data-sf-parallax="0.12" aria-hidden="true"><span>Zero dependencies</span></div>
+      <div class="hero-text">
+        <h1>ScrollFlow</h1>
+        <p class="lead" data-sf-reveal="fade-up" data-sf-delay="100">A tiny JavaScript library for the scroll effects most sites actually need: elements that reveal as you scroll, a touch of parallax, and a reading progress bar. No dependencies, no build step.</p>
+        <div class="hero-actions" data-sf-reveal="fade-up" data-sf-delay="250">
+          <a class="btn" href="#install">Get ScrollFlow</a>
+          <a class="btn btn-ghost" href="#playground">Try the playground</a>
         </div>
-        <!-- Animated Blobs (Pure CSS) -->
-        <div class="hero-blob blob-1"></div>
-        <div class="hero-blob blob-2"></div>
+        <p class="hero-fact" data-sf-reveal="fade-up" data-sf-delay="400">2,400 bytes gzipped, JS and CSS together. That is the whole library.</p>
+      </div>
+    </section>
 
-        <div class="hero-content" style="z-index: 1;">
-            <h1 data-sf-reveal="fade-up">Scroll.<br>Animate.<br>Flow.</h1>
-            <p data-sf-reveal="fade-up" data-sf-delay="200">
-                A lightweight, zero-dependency JavaScript library <br>
-                for next-level scroll interactions.
-            </p>
-            <div data-sf-reveal="fade-up" data-sf-delay="400">
-                <a href="#features" class="btn btn-primary" style="margin-right: 1rem;">Get Started</a>
-                <a href="https://github.com/aqles/scroll-test" target="_blank" class="btn glass">View on GitHub</a>
+    <section class="band band-sage" id="playground">
+      <div class="section-inner">
+        <h2 data-sf-reveal="fade-up">Playground</h2>
+        <p class="section-lead" data-sf-reveal="fade-up" data-sf-delay="100">Pick an animation, set a delay, press replay. This box is animated by ScrollFlow itself, running on this page.</p>
+        <div class="playground">
+          <div class="playground-stage">
+            <div class="playground-disc" id="pg-box" data-sf-reveal="fade-up" data-sf-delay="200">
+              <span>Watch me</span>
             </div>
+          </div>
+          <div class="playground-controls">
+            <label class="control">
+              <span>Animation</span>
+              <select id="pg-type">
+                <option value="fade-up" selected>fade-up</option>
+                <option value="fade-in">fade-in</option>
+                <option value="fade-down">fade-down</option>
+                <option value="slide-left">slide-left</option>
+                <option value="slide-right">slide-right</option>
+                <option value="zoom-in">zoom-in</option>
+                <option value="zoom-out">zoom-out</option>
+              </select>
+            </label>
+            <label class="control">
+              <span>Delay — <output id="pg-delay-out">200 ms</output></span>
+              <input type="range" id="pg-delay" min="0" max="1000" step="50" value="200">
+            </label>
+            <label class="control">
+              <span>Duration — <output id="pg-duration-out">800 ms</output></span>
+              <input type="range" id="pg-duration" min="100" max="2000" step="100" value="800">
+            </label>
+            <button class="btn" id="pg-replay" type="button">Replay animation</button>
+            <pre class="playground-code"><code id="pg-code">&lt;div data-sf-reveal="fade-up" data-sf-delay="200"&gt;</code></pre>
+          </div>
         </div>
-    </div>
+      </div>
+    </section>
 
     <section id="features">
-        <h2 class="section-title" data-sf-reveal="fade-up">Why ScrollFlow?</h2>
-        <div class="grid">
-            <div class="card glass" data-sf-reveal="fade-up" data-sf-delay="100">
-                <h3>⚡ Zero Dependencies</h3>
-                <p>Written in pure ES6 JavaScript. No jQuery, no bloat. Just 2KB gzipped.</p>
-            </div>
-            <div class="card glass" data-sf-reveal="fade-up" data-sf-delay="200">
-                <h3>🎨 Reveal Animations</h3>
-                <p>Fade up, slide in, zoom in. Trigger animations easily when elements enter the viewport.</p>
-            </div>
-            <div class="card glass" data-sf-reveal="fade-up" data-sf-delay="300">
-                <h3>🌌 Parallax Engine</h3>
-                <p>Smooth parallax effects for backgrounds and elements with a simple data attribute.</p>
-            </div>
+      <div class="section-inner">
+        <h2 data-sf-reveal="fade-up">What it does</h2>
+        <div class="ledger">
+          <div class="ledger-row" data-sf-reveal="fade-up">
+            <span class="dot" aria-hidden="true"></span>
+            <h3>Reveal on scroll</h3>
+            <p>Seven animations — fade, slide, zoom — triggered by IntersectionObserver when an element enters the viewport. Add one attribute and you are done.</p>
+            <p class="ledger-figure">7 animations</p>
+          </div>
+          <div class="ledger-row" data-sf-reveal="fade-up" data-sf-delay="100">
+            <span class="dot" aria-hidden="true"></span>
+            <h3>Parallax that stays put</h3>
+            <p>Movement is calculated from the element's own position against the centre of the viewport, so an element halfway down the page behaves the same as one at the top.</p>
+            <p class="ledger-figure">1 attribute</p>
+          </div>
+          <div class="ledger-row" data-sf-reveal="fade-up" data-sf-delay="200">
+            <span class="dot" aria-hidden="true"></span>
+            <h3>Reading progress bar</h3>
+            <p>A flat bar at the top of the page, driven by transform so it never triggers layout. The one on this page is ScrollFlow's.</p>
+            <p class="ledger-figure">on by default</p>
+          </div>
+          <div class="ledger-row" data-sf-reveal="fade-up" data-sf-delay="300">
+            <span class="dot" aria-hidden="true"></span>
+            <h3>Respects reduced motion</h3>
+            <p>Visitors who ask their system for reduced motion get the content straight away: no reveal travel, no parallax, no smooth scrolling.</p>
+            <p class="ledger-figure">automatic</p>
+          </div>
+          <div class="ledger-row" data-sf-reveal="fade-up" data-sf-delay="400">
+            <span class="dot" aria-hidden="true"></span>
+            <h3>Plays well with real sites</h3>
+            <p>Content added later? Call <code>refresh()</code>. Done with it? <code>destroy()</code> removes the listeners, the observer, and the bar. No JavaScript at all? Everything stays visible.</p>
+            <p class="ledger-figure">2 methods</p>
+          </div>
         </div>
+      </div>
     </section>
 
-    <section id="how-it-works" style="background: rgba(255,255,255,0.02);">
-        <h2 class="section-title" data-sf-reveal="fade-up">How It Works</h2>
+    <section class="band band-blush" id="install">
+      <div class="section-inner">
+        <h2 data-sf-reveal="fade-up">Install in a minute</h2>
+        <p class="section-lead" data-sf-reveal="fade-up" data-sf-delay="100">Three ways in. All of them end with the same two files.</p>
 
-        <div style="max-width: 800px; margin: 0 auto;">
-            <p data-sf-reveal="fade-in" style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Just include the script and use data attributes. No complex configuration required.
-            </p>
-
-            <h3 data-sf-reveal="slide-left">1. Installation</h3>
-            <pre data-sf-reveal="zoom-in">
-&lt;link rel="stylesheet" href="css/scrollflow.css"&gt;
-&lt;script src="src/scrollflow.js"&gt;&lt;/script&gt;</pre>
-
-            <br><br>
-
-            <h3 data-sf-reveal="slide-left">2. Reveal Animations</h3>
-            <pre data-sf-reveal="zoom-in" data-sf-delay="100">
-&lt;div data-sf-reveal="fade-up"&gt;
-    I will fade up when visible!
-&lt;/div&gt;</pre>
-
-            <br><br>
-
-            <h3 data-sf-reveal="slide-left">3. Parallax Effect</h3>
-            <pre data-sf-reveal="zoom-in" data-sf-delay="200">
-&lt;div data-sf-parallax="0.5"&gt;
-    I move specifically slower than scroll!
-&lt;/div&gt;</pre>
+        <h3 class="install-title" data-sf-reveal="fade-up">CDN</h3>
+        <div class="code-block" data-sf-reveal="fade-up">
+          <pre><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/aqles/scrollflow@2.0.0/dist/scrollflow.css"&gt;
+&lt;script src="https://cdn.jsdelivr.net/gh/aqles/scrollflow@2.0.0/dist/scrollflow.min.js" data-auto-init&gt;&lt;/script&gt;</code></pre>
+          <button class="btn btn-small copy-btn" type="button" data-copy="cdn">Copy</button>
         </div>
+
+        <h3 class="install-title" data-sf-reveal="fade-up">npm</h3>
+        <div class="code-block" data-sf-reveal="fade-up">
+          <pre><code>npm install @aqles/scrollflow</code></pre>
+          <button class="btn btn-small copy-btn" type="button" data-copy="npm">Copy</button>
+        </div>
+        <div class="code-block" data-sf-reveal="fade-up">
+          <pre><code>import ScrollFlow from '@aqles/scrollflow';
+import '@aqles/scrollflow/dist/scrollflow.css';
+
+new ScrollFlow();</code></pre>
+          <button class="btn btn-small copy-btn" type="button" data-copy="import">Copy</button>
+        </div>
+
+        <h3 class="install-title" data-sf-reveal="fade-up">Files, no tooling</h3>
+        <p class="install-note" data-sf-reveal="fade-up">Download <code>scrollflow.js</code> and <code>scrollflow.css</code> from the <a href="https://github.com/aqles/scrollflow/tree/main/dist" target="_blank" rel="noopener noreferrer">dist folder</a>, drop them in your project, and link them like the CDN snippet above. Then mark up your elements:</p>
+        <div class="code-block" data-sf-reveal="fade-up">
+          <pre><code>&lt;h2 data-sf-reveal="fade-up"&gt;Hello&lt;/h2&gt;
+&lt;p data-sf-reveal="fade-up" data-sf-delay="150"&gt;150 ms later, any number works.&lt;/p&gt;
+&lt;div data-sf-parallax="0.2"&gt;I drift, gently.&lt;/div&gt;</code></pre>
+          <button class="btn btn-small copy-btn" type="button" data-copy="markup">Copy</button>
+        </div>
+      </div>
     </section>
 
-    <section id="download" style="text-align: center; padding: 8rem 2rem;">
-        <h2 data-sf-reveal="zoom-in" style="font-size: 3rem; margin-bottom: 2rem;">Ready to Flow?</h2>
-        <a href="dist/scrollflow.zip" download class="btn btn-primary" style="padding: 1.2rem 3rem; font-size: 1.2rem;"
-            data-sf-reveal="fade-up">Download Library</a>
+    <section class="parallax-demo">
+      <div class="section-inner">
+        <h2>Parallax, honestly measured</h2>
+        <p class="section-lead">The offset is the distance between the element's centre and the viewport's centre, times the speed you set. At the centre the offset is zero, and the distance is capped at half the viewport, so nothing ever jumps or drifts away. Give a parallax element a parent with room to spare — it moves within the space around it.</p>
+      </div>
+      <div class="parallax-field">
+        <div class="parallax-disc" data-sf-parallax="0.18" aria-hidden="true"></div>
+        <p class="parallax-line parallax-slow" data-sf-parallax="0.05">Speed 0.05, barely moving.</p>
+        <p class="parallax-line parallax-fast" data-sf-parallax="0.12">Speed 0.12, moving more.</p>
+        <p class="parallax-line parallax-disc-line" data-sf-parallax="0.09">The disc drifts at 0.18.</p>
+      </div>
     </section>
 
-    <footer>
-        <p>&copy; 2025 ScrollFlow.js. Open Source MIT License.</p>
-    </footer>
+    <section id="api">
+      <div class="section-inner">
+        <h2 data-sf-reveal="fade-up">API</h2>
+        <h3 class="api-title" data-sf-reveal="fade-up">Options</h3>
+        <div class="table-wrap" data-sf-reveal="fade-up">
+          <table>
+            <thead>
+              <tr><th>Option</th><th>Default</th><th>What it does</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>revealThreshold</code></td><td><code>0.1</code></td><td>How much of an element must be visible before it reveals.</td></tr>
+              <tr><td><code>rootMargin</code></td><td><code>"0px 0px -50px 0px"</code></td><td>IntersectionObserver root margin for reveals.</td></tr>
+              <tr><td><code>parallaxSpeed</code></td><td><code>0.5</code></td><td>Fallback speed for parallax elements without a valid value.</td></tr>
+              <tr><td><code>progressBar</code></td><td><code>true</code></td><td>Show the reading progress bar.</td></tr>
+              <tr><td><code>smoothScroll</code></td><td><code>true</code></td><td>Smooth anchor scrolling via CSS <code>scroll-behavior</code>. Links are never intercepted.</td></tr>
+              <tr><td><code>once</code></td><td><code>true</code></td><td>Reveal once and stop watching. Set <code>false</code> to hide elements again when they leave.</td></tr>
+              <tr><td><code>duration</code></td><td><code>null</code></td><td>Reveal duration in ms. Overrides the <code>--sf-duration</code> CSS variable.</td></tr>
+              <tr><td><code>easing</code></td><td><code>null</code></td><td>Reveal easing. Overrides the <code>--sf-easing</code> CSS variable.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 class="api-title" data-sf-reveal="fade-up">Methods</h3>
+        <div class="table-wrap" data-sf-reveal="fade-up">
+          <table>
+            <thead>
+              <tr><th>Method</th><th>What it does</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>refresh()</code></td><td>Re-scan the page and pick up elements added since the library started.</td></tr>
+              <tr><td><code>destroy()</code></td><td>Disconnect the observer, remove the listeners and the progress bar, and undo the styles this instance set.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="api-note" data-sf-reveal="fade-up">Full examples — reveal, parallax, progress and smooth scrolling — live in the <a href="https://github.com/aqles/scrollflow/tree/main/examples" target="_blank" rel="noopener noreferrer">examples folder</a>. Found a bug? <a href="https://github.com/aqles/scrollflow/issues" target="_blank" rel="noopener noreferrer">Open an issue</a>.</p>
+      </div>
+    </section>
 
-    <script>
-        // Optional: Manual Header Scroll Effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    </script>
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-inner">
+      <p class="footer-mark" aria-hidden="true">ScrollFlow</p>
+      <div class="footer-cols">
+        <p>ScrollFlow is free and open source under the MIT License. Use it anywhere, including commercial work.</p>
+        <p>
+          <a href="https://github.com/aqles/scrollflow" target="_blank" rel="noopener noreferrer">GitHub</a><br>
+          <a href="https://www.npmjs.com/package/scrollflow" target="_blank" rel="noopener noreferrer">npm</a><br>
+          <a href="#install">Install</a><br>
+          <a href="#api">API</a>
+        </p>
+        <p>Written by aqles. No cookies, no tracking on this page.</p>
+      </div>
+      <p class="footer-legal">© 2021–2026 aqles — MIT License</p>
+    </div>
+  </footer>
+
+  <script src="src/scrollflow.js" data-auto-init></script>
+  <script src="js/demo.js" defer></script>
 </body>
-
 </html>
