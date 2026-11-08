@@ -1,4 +1,4 @@
-/* ScrollFlow v2.0.0 — (c) 2021-2026 aqles, MIT License */
+/* ScrollFlow v3.0.0 — (c) 2021-2026 aqles, MIT License */
 
 :root {
   --sf-duration: 800ms;
@@ -32,29 +32,101 @@ html.sf-smooth {
 }
 
 /*
- * Reveal start states are gated on html.sf-js, a class the library adds
- * when it runs. Without JavaScript nothing is hidden and every element
- * stays readable.
+ * JS engine reveal states. Gated on html.sf-js, a class the library adds
+ * when it runs, and on the native engine being off. Without JavaScript
+ * nothing is hidden and every element stays readable.
  */
-html.sf-js [data-sf-reveal] {
+html.sf-js:not(.sf-native) [data-sf-reveal] {
   opacity: 0;
   transition:
     opacity var(--sf-duration) var(--sf-easing),
     transform var(--sf-duration) var(--sf-easing);
 }
 
-html.sf-js [data-sf-reveal].sf-visible {
+html.sf-js:not(.sf-native) [data-sf-reveal].sf-visible {
   opacity: 1;
   transform: none;
 }
 
-html.sf-js [data-sf-reveal="fade-up"] { transform: translateY(30px); }
-html.sf-js [data-sf-reveal="fade-down"] { transform: translateY(-30px); }
-html.sf-js [data-sf-reveal="fade-in"] { transform: none; }
-html.sf-js [data-sf-reveal="slide-left"] { transform: translateX(-30px); }
-html.sf-js [data-sf-reveal="slide-right"] { transform: translateX(30px); }
-html.sf-js [data-sf-reveal="zoom-in"] { transform: scale(0.95); }
-html.sf-js [data-sf-reveal="zoom-out"] { transform: scale(1.05); }
+html.sf-js:not(.sf-native) [data-sf-reveal="fade-up"] { transform: translateY(30px); }
+html.sf-js:not(.sf-native) [data-sf-reveal="fade-down"] { transform: translateY(-30px); }
+html.sf-js:not(.sf-native) [data-sf-reveal="fade-in"] { transform: none; }
+html.sf-js:not(.sf-native) [data-sf-reveal="slide-left"] { transform: translateX(-30px); }
+html.sf-js:not(.sf-native) [data-sf-reveal="slide-right"] { transform: translateX(30px); }
+html.sf-js:not(.sf-native) [data-sf-reveal="zoom-in"] { transform: scale(0.95); }
+html.sf-js:not(.sf-native) [data-sf-reveal="zoom-out"] { transform: scale(1.05); }
+
+/*
+ * Native engine: CSS scroll-driven animations, no per-frame JavaScript.
+ * The library adds html.sf-native when it picks this engine; the
+ * @supports gate keeps every rule inert where the feature is missing,
+ * so a browser without it simply shows the content.
+ * These animations are scroll-linked: they progress as the element
+ * travels through the viewport and reverse when it travels back.
+ */
+@keyframes sf-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes sf-fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes sf-fade-down {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes sf-slide-left {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes sf-slide-right {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes sf-zoom-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes sf-zoom-out {
+  from { opacity: 0; transform: scale(1.05); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes sf-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes sf-parallax {
+  from { transform: translate3d(0, calc(var(--sf-pd, 0px) * -1), 0); }
+  to { transform: translate3d(0, var(--sf-pd, 0px), 0); }
+}
+
+@supports (animation-timeline: view()) {
+  html.sf-native [data-sf-reveal] {
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+    animation-fill-mode: both;
+  }
+
+  html.sf-native [data-sf-reveal="fade-in"] { animation-name: sf-fade-in; }
+  html.sf-native [data-sf-reveal="fade-up"] { animation-name: sf-fade-up; }
+  html.sf-native [data-sf-reveal="fade-down"] { animation-name: sf-fade-down; }
+  html.sf-native [data-sf-reveal="slide-left"] { animation-name: sf-slide-left; }
+  html.sf-native [data-sf-reveal="slide-right"] { animation-name: sf-slide-right; }
+  html.sf-native [data-sf-reveal="zoom-in"] { animation-name: sf-zoom-in; }
+  html.sf-native [data-sf-reveal="zoom-out"] { animation-name: sf-zoom-out; }
+
+  html.sf-native .sf-progress-indicator {
+    animation: sf-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+
+  html.sf-native [data-sf-parallax] {
+    animation: sf-parallax linear both;
+    animation-timeline: view();
+    animation-range: cover;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html.sf-smooth {
@@ -65,5 +137,11 @@ html.sf-js [data-sf-reveal="zoom-out"] { transform: scale(1.05); }
     opacity: 1 !important;
     transform: none !important;
     transition: none;
+    animation: none;
+  }
+
+  html.sf-native [data-sf-parallax],
+  html.sf-native .sf-progress-indicator {
+    animation: none;
   }
 }
