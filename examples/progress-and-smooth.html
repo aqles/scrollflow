@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScrollFlow example — progress bar and smooth anchors</title>
+  <link rel="stylesheet" href="../src/scrollflow.css">
+  <style>
+    :root { --sf-progress-color: #b3541e; }
+    body { font-family: Georgia, serif; margin: 0; line-height: 1.7; color: #222; background: #fdfcf9; }
+    main { max-width: 620px; margin: 0 auto; padding: 2rem 1.25rem 6rem; }
+    nav { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    section { margin-bottom: 5rem; }
+    p { margin-bottom: 1.2rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>A long read</h1>
+    <p>The rust-coloured bar at the very top of this page is ScrollFlow's progress bar — on by default, restyled here with one CSS variable. The chapter links below glide instead of jumping, because <code>smoothScroll</code> is on. Notice the address bar as you click: the links are ordinary anchors and ScrollFlow never touches them, so history and the back button behave normally.</p>
+
+    <nav>
+      <a href="#one">Chapter one</a>
+      <a href="#two">Chapter two</a>
+      <a href="#three">Chapter three</a>
+    </nav>
+
+    <section id="one">
+      <h2 data-sf-reveal="fade-up">Chapter one</h2>
+      <p data-sf-reveal="fade-up">Reading progress bars earn their place on long pages. A reader who can see the end approaching reads differently from one who cannot: the bar turns an unknown amount of scrolling into a known distance, and known distances feel shorter.</p>
+      <p data-sf-reveal="fade-up">ScrollFlow draws its bar with <code>transform: scaleX()</code> rather than by changing its width, because changing a transform does not force the browser to lay the page out again. On a long article, that is the difference between a bar that glides and one that stutters on weaker phones.</p>
+      <p data-sf-reveal="fade-up">The bar also knows when there is nothing to measure. On a page too short to scroll, the maths returns zero instead of dividing by zero — a small thing, until the day your landing page quietly grows a broken bar.</p>
+    </section>
+
+    <section id="two">
+      <h2 data-sf-reveal="fade-up">Chapter two</h2>
+      <p data-sf-reveal="fade-up">Smooth scrolling used to mean intercepting every click on every anchor link. That works, right up until a reader shares a link, presses back, or opens a link in a new tab and finds the browser's own behaviour replaced by yours.</p>
+      <p data-sf-reveal="fade-up">The modern way is one line of CSS — <code>scroll-behavior: smooth</code> — and that is exactly what ScrollFlow's <code>smoothScroll</code> option applies, by adding a class to the page. Readers who prefer reduced motion get instant jumps instead, automatically.</p>
+      <p data-sf-reveal="fade-up">Try the chapter links at the top again. Then press your browser's back button. It just works, because nothing was ever intercepted.</p>
+    </section>
+
+    <section id="three">
+      <h2 data-sf-reveal="fade-up">Chapter three</h2>
+      <p data-sf-reveal="fade-up">You are at the end, and the bar at the top should be full. That is the whole example: a progress bar, smooth anchors, and headings that reveal as they arrive — three attributes and two defaults, no configuration.</p>
+      <p data-sf-reveal="fade-up">To turn the bar off, start the library with <code>new ScrollFlow({ progressBar: false })</code> instead of using <code>data-auto-init</code>.</p>
+    </section>
+  </main>
+
+  <script src="../src/scrollflow.js" data-auto-init></script>
+</body>
+</html>
