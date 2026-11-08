@@ -42,11 +42,21 @@ durationInput.addEventListener('input', syncPlaygroundLabels);
 syncPlaygroundLabels();
 
 document.getElementById('pg-replay').addEventListener('click', () => {
-  if (!box || !window.scrollFlow) return;
-  box.classList.remove('sf-visible');
+  if (!box) return;
+  // Apply the chosen settings, snap back to the animation's start state
+  // with transitions switched off (so the reset is instant instead of
+  // animating backwards), then reveal again. Re-observing through
+  // ScrollFlow cannot replay an element that is already on screen: the
+  // observer would re-add the class before the hide transition starts.
   box.setAttribute('data-sf-reveal', typeSelect.value);
   box.setAttribute('data-sf-delay', delayInput.value);
+  box.style.transition = 'none';
+  box.classList.remove('sf-visible');
+  void box.offsetWidth; // commit the start state before transitions return
+  box.style.transition = '';
+  // Set these after clearing the shorthand above: assigning
+  // style.transition resets the delay/duration longhands with it.
+  box.style.transitionDelay = `${delayInput.value}ms`;
   box.style.transitionDuration = `${durationInput.value}ms`;
-  // Let the start state paint, then hand the element back to ScrollFlow.
-  setTimeout(() => window.scrollFlow.refresh(), 80);
+  requestAnimationFrame(() => box.classList.add('sf-visible'));
 });
