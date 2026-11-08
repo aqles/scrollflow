@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScrollFlow example — reveal animations</title>
+  <link rel="stylesheet" href="../src/scrollflow.css">
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 2rem 1.25rem 6rem; line-height: 1.55; color: #1c1c1c; background: #f4f4f2; }
+    main { max-width: 640px; margin: 0 auto; }
+    .box { background: #fff; padding: 1.6rem; margin: 2.5rem 0; font-size: 1.2rem; font-weight: 600; }
+    .spacer { height: 55vh; display: flex; align-items: center; color: #666; }
+    code { background: #ececea; padding: 0.1em 0.35em; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Reveal animations</h1>
+    <p>Every box below uses nothing but a <code>data-sf-reveal</code> attribute. Scroll down. Reload the page to watch them again, or set <code>once: false</code> in the options to replay them on every pass.</p>
+
+    <p class="spacer">Keep scrolling…</p>
+
+    <div class="box" data-sf-reveal="fade-in">fade-in</div>
+    <div class="box" data-sf-reveal="fade-up">fade-up</div>
+    <div class="box" data-sf-reveal="fade-down">fade-down</div>
+    <div class="box" data-sf-reveal="slide-left">slide-left</div>
+    <div class="box" data-sf-reveal="slide-right">slide-right</div>
+    <div class="box" data-sf-reveal="zoom-in">zoom-in</div>
+    <div class="box" data-sf-reveal="zoom-out">zoom-out</div>
+
+    <h2>Delays stagger a group</h2>
+    <p>Any number of milliseconds works.</p>
+    <div class="box" data-sf-reveal="fade-up" data-sf-delay="0">delay 0</div>
+    <div class="box" data-sf-reveal="fade-up" data-sf-delay="180">delay 180</div>
+    <div class="box" data-sf-reveal="fade-up" data-sf-delay="360">delay 360</div>
+    <div class="box" data-sf-reveal="fade-up" data-sf-delay="540">delay 540</div>
+  </main>
+
+  <script src="../src/scrollflow.js" data-auto-init></script>
+</body>
+</html>
