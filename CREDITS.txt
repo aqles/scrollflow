@@ -1,7 +1,10 @@
-ScrollFlow.js
-A lightweight, zero-dependency JavaScript library for scroll interactions.
+ScrollFlow
+A tiny, zero-dependency JavaScript library for scroll interactions:
+reveal on scroll, parallax, and a reading progress bar.
 
 Created by: aqles
-Project URL: https://github.com/aqles/scroll-test
+Project URL: https://github.com/aqles/scrollflow
+Demo: https://aqles.github.io/scrollflow/
+Version: 2.0.0
 
-License: MIT
+License: MIT (see LICENSE)
