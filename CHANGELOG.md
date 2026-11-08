@@ -2,6 +2,23 @@
 
 All notable changes to ScrollFlow are recorded here.
 
+## 3.0.0 — 2026-11-08
+
+Two engines and a way in for AOS users. The markup from v2 keeps working unchanged.
+
+### Added
+
+- **Native engine.** Where the browser supports CSS scroll-driven animations (Chrome/Edge 115+, Safari 26+), reveals, parallax, and the progress bar now run as `animation-timeline` animations on the compositor — no per-frame JavaScript. The v2 IntersectionObserver engine remains as the fallback everywhere else (Firefox today). Pick with the new `engine` option (`'auto'`, `'native'`, `'js'`; default `'auto'`), or `data-sf-engine` on the auto-init script tag. The active engine is visible as the `sf-native` class on `<html>`, and `ScrollFlow.supportsNative()` reports support. Native animations are scroll-linked — they progress and reverse with your scroll — so `once`, `duration`, and `easing` remain JS-engine concepts there; a native `data-sf-delay` becomes an entry-range offset instead of a wait. All of this is spelled out in the README's "Two engines" section.
+- **AOS compatibility.** Elements marked up with `data-aos`, `data-aos-delay`, `data-aos-duration`, and `data-aos-easing` work as they are: the animation name is translated to the closest ScrollFlow one (`fade-left` → `slide-right`, diagonals collapse to straight fades, `flip-*` → `fade-in`, `slide-*` → `fade-up`) and written back as `data-sf-reveal`; AOS easing names are translated to cubic-bezier values. The translation table is public as `ScrollFlow.mapAosAnimation()` / `ScrollFlow.mapAosEasing()`.
+- **`scrollflow migrate` command.** A zero-dependency CLI shipped in the package: it rewrites AOS markup to `data-sf-*` attributes across `.html`/`.jsx`/`.tsx`/`.vue`/`.php` files, swaps AOS CDN links and imports, turns `AOS.init(` into `new ScrollFlow(`, and removes attributes that are constructor options in ScrollFlow — dry-run by default, `--write` to apply.
+- **Per-element `data-sf-duration` and `data-sf-easing`** for the JS engine, joining `data-sf-delay`.
+- **TypeScript definitions** (`scrollflow.d.ts`), covering the options (including `engine`), `refresh()`/`destroy()`, and the static helpers.
+
+### Changed
+
+- The library grew: 3,928 bytes gzipped in total (2,598 JS + 1,330 CSS), up from 2,400 in v2. The second engine and the AOS translation layer are where the bytes went.
+- `destroy()` also removes the `sf-native` class and the inline styles the v3 prep pass sets.
+
 ## 2.0.0 — 2026-11-08
 
 A full rewrite. The markup you already have keeps working; the behaviour underneath it is corrected.
