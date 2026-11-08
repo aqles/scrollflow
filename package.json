@@ -1,5 +1,8 @@
 {
     "author": "aqles",
+    "bin": {
+        "scrollflow": "bin/scrollflow.mjs"
+    },
     "bugs": {
         "url": "https://github.com/aqles/scrollflow/issues"
     },
@@ -13,6 +16,8 @@
     "files": [
         "dist",
         "src",
+        "bin",
+        "scrollflow.d.ts",
         "LICENSE",
         "README.md"
     ],
@@ -41,6 +46,7 @@
         "test": "node test/smoke.mjs"
     },
     "style": "dist/scrollflow.css",
+    "types": "scrollflow.d.ts",
     "unpkg": "dist/scrollflow.js",
-    "version": "2.0.0"
+    "version": "3.0.0"
 }
